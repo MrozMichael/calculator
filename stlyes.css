@@ -3,6 +3,10 @@ body {
     margin: 20vh auto;
 }
 
+* {
+    font-family: 'consolas', 'Courier New', Courier, monospace;
+}
+
 #calculator {
     box-sizing: border-box;
     border: 3px groove #131313;
@@ -11,14 +15,20 @@ body {
     justify-content: center;
     max-width: fit-content;
     margin: auto;
+    gap: 2em;
     padding: 2em;
 }
 
 #screen {
     border: 2px solid black;
-    flex: 1;
+    border-radius: 5px;
+    text-align: end;
+    background-color: rgb(252, 252, 212);
+    padding-right: 10%;
 }
 
-.buttons {
+#buttons {
     display: grid;
+    grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr;
+    gap: 1em;
 }
