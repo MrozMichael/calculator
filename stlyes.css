@@ -1,6 +1,6 @@
 body {
     max-width: 80vw;
-    margin: 20vh auto;
+    margin: 10vh auto;
 }
 
 * {
@@ -27,10 +27,41 @@ body {
     padding-right: 2%;
 }
 
+#stored_value {
+    color: rgba(128, 128, 128, 0.63);
+}
+
+#display_value {
+    font-size: 2em;
+}
+
 #buttons {
     display: grid;
-    grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid red;
+}
+
+#number_buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5em;
+    padding: 2em;
+}
+
+button {
+    font-size: 1.5em;
+}
+
+/* place 0 button last*/
+#number_buttons > :first-child {
+    order: 10;
+}
+
+#operator_buttons {
+    display: flex;
+    flex-flow: column wrap;
     gap: 1em;
+    padding: 2em;
 }
 
 
