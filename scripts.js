@@ -2,19 +2,17 @@ const calculator = document.getElementById("calculator");
 const buttons = document.getElementById("buttons");
 const screen = document.getElementById("screen");
 const errorMsg = document.getElementById("error_message")
+
 screen.textContent = "0";
-
-/*todo: allow chaining operations.
-  ex: 7 + 3 + 5 = 15 (currently gives 8)
-*/
-
-
 let storedValue = "";
 let chosenOperator = "";
-//click handler for equal button
+//displayNewNumber boolean flag for when screen should be overwritten
+let displayNewNumber = true;
+
 const calculate = () => {
     let result;
-    if (storedValue == "") {
+  
+    if (storedValue === "") {
         return +screen.textContent;
     }
     let x = storedValue;
@@ -30,6 +28,7 @@ const calculate = () => {
             result = x * y;
             break;
         case "/":
+            console.log("in division, x is:", x , " y is: ", y)
             if (y == 0) {
                 errorMsg.textContent = "Divide By 0 Error";
                 return;
@@ -70,14 +69,17 @@ createButton(0, "number_button");
 
 const numberButtons = Array.from(document.getElementsByClassName("number_button"));
 //give click handler to each number button
-numberButtons.forEach(n => n.addEventListener("click", function(e) {
+numberButtons.forEach(button => button.addEventListener("click", function(e) {
     if (+screen.textContent >= 9007199254740991) {
-        errorMsg.textContent = "Error: Maxmimum Value Exceeded"
+        errorMsg.textContent = "Error: Maxmimum Value Exceeded";
         return;
     }
-    //displayNewNumber boolean flag when an operator button pressed
-    screen.textContent = screen.textContent == 0 || displayNewNumber ? 
-        this.textContent : screen.textContent + this.textContent;
+    if (+screen.textContent <= -9007199254740991) {
+        errorMsg.textContent = "Error: Minimum Value Exceeded";
+        return;
+    }
+    screen.textContent = screen.textContent == "" || displayNewNumber ? 
+        button.textContent : screen.textContent + button.textContent;
     displayNewNumber = false;
 }))
 
@@ -91,6 +93,7 @@ operators.map(operator => {
         //next input will display a new number
         displayNewNumber = true;
         console.log("Stored value: ", storedValue);
+        console.log("chosen op:", chosenOperator)
     })
 });
 
@@ -99,7 +102,7 @@ const clearButton = createButton("clear", "clear_button");
 
 clearButton.addEventListener("click", function(e) {
     screen.textContent = "0";
-    storedValue = 0;
+    storedValue = "";
 })
 
 const deleteButton = createButton("del", "delete_button");
@@ -111,7 +114,9 @@ deleteButton.addEventListener("click", function(e) {
 const equalsButton = createButton("=", "equals_button");
 
 equalsButton.addEventListener("click", function(e) {
-    calculate();
+    console.log("stored num: ", storedValue);
+    console.log("display num: ", +screen.textContent)
+    console.log("when hitting equals, calc returns:", calculate());
     storedValue = "";
     displayNewNumber = true;
 })
