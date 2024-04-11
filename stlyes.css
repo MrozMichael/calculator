@@ -15,20 +15,25 @@ body {
     justify-content: center;
     max-width: fit-content;
     margin: auto;
-    gap: 2em;
-    padding: 2em;
+    gap: 2rem;
+    padding: 2rem;
 }
 
 #screen {
     border: 2px solid black;
     border-radius: 5px;
     text-align: end;
-    background-color: rgb(252, 252, 212);
-    padding-right: 10%;
+    background-color: rgb(224, 242, 245);
+    padding-right: 2%;
 }
 
 #buttons {
     display: grid;
     grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr;
     gap: 1em;
+}
+
+#error_message {
+    color: red;
+    font-weight: bolder;
 }
