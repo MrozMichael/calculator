@@ -5,6 +5,7 @@ const errorMsg = document.getElementById("error_message")
 
 screen.textContent = "0";
 let storedValue = "";
+let lastPressed = "";
 let chosenOperator = "";
 //displayNewNumber boolean flag for when screen should be overwritten
 let displayNewNumber = true;
@@ -28,7 +29,6 @@ const calculate = () => {
             result = x * y;
             break;
         case "/":
-            console.log("in division, x is:", x , " y is: ", y)
             if (y == 0) {
                 errorMsg.textContent = "Divide By 0 Error";
                 return;
@@ -43,10 +43,6 @@ const calculate = () => {
             break;
         default:
             return;
-    }
-    if (isNaN(result)) {
-        errorMsg.textContent = "Error: invalid result";
-        return;
     }
     screen.textContent = result;
     return result;
@@ -78,6 +74,7 @@ numberButtons.forEach(button => button.addEventListener("click", function(e) {
         errorMsg.textContent = "Error: Minimum Value Exceeded";
         return;
     }
+    lastPressed = +button.textContent;
     screen.textContent = screen.textContent == "" || displayNewNumber ? 
         button.textContent : screen.textContent + button.textContent;
     displayNewNumber = false;
@@ -85,24 +82,39 @@ numberButtons.forEach(button => button.addEventListener("click", function(e) {
 
 const operators = ["+", "-", "/", "*", "^", "%"];
 //give click handler to each operator button   
+
 operators.map(operator => {
     let newButton = createButton(operator, "operator_button"); 
     newButton.addEventListener("click", function(e) {
+        if (isNaN(lastPressed)) {
+            chosenOperator = operator;
+            lastPressed = operator;
+            return;
+        }
         storedValue = isNaN(+screen.textContent) ? storedValue : calculate();
+        console.log("stored: ", storedValue)
         chosenOperator = operator;    
         //next input will display a new number
         displayNewNumber = true;
-        console.log("Stored value: ", storedValue);
-        console.log("chosen op:", chosenOperator)
+        lastPressed = operator.textContent;
     })
 });
 
+const invertButton = createButton("(+/-)", "invert_button");
+invertButton.addEventListener("click", function(e){
+    if (!isNaN(+screen.textContent)) {
+        screen.textContent = +screen.textContent * -1;
+    }
+})
 
 const clearButton = createButton("clear", "clear_button");
 
 clearButton.addEventListener("click", function(e) {
     screen.textContent = "0";
     storedValue = "";
+    chosenOperator = "";
+    lastPressed = "";
+    displayNewNumber = true;
 })
 
 const deleteButton = createButton("del", "delete_button");
@@ -114,11 +126,13 @@ deleteButton.addEventListener("click", function(e) {
 const equalsButton = createButton("=", "equals_button");
 
 equalsButton.addEventListener("click", function(e) {
-    console.log("stored num: ", storedValue);
-    console.log("display num: ", +screen.textContent)
-    console.log("when hitting equals, calc returns:", calculate());
+    if (isNaN(lastPressed)){
+        return;
+    }
+    calculate();
     storedValue = "";
     displayNewNumber = true;
+    chosenOperator = "";
 })
 
 document.getElementById("debug").addEventListener("click", function(e){
