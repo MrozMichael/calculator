@@ -9,12 +9,14 @@ screen.textContent = "0";
 */
 
 
-let storedValue = 0;
+let storedValue = "";
 let chosenOperator = "";
-
 //click handler for equal button
 const calculate = () => {
     let result;
+    if (storedValue == "") {
+        return +screen.textContent;
+    }
     let x = storedValue;
     let y = +screen.textContent;
     switch(chosenOperator) {
@@ -48,7 +50,7 @@ const calculate = () => {
         return;
     }
     screen.textContent = result;
-    storedValue = 0;
+    return result;
     //displayNewNumber = true;
 }
 //helper function to make calculator buttons
@@ -84,10 +86,11 @@ const operators = ["+", "-", "/", "*", "^", "%"];
 operators.map(operator => {
     let newButton = createButton(operator, "operator_button"); 
     newButton.addEventListener("click", function(e) {
-        chosenOperator = operator;
-        storedValue = isNaN(+screen.textContent) ? 0 : +screen.textContent;
+        storedValue = isNaN(+screen.textContent) ? storedValue : calculate();
+        chosenOperator = operator;    
         //next input will display a new number
         displayNewNumber = true;
+        console.log("Stored value: ", storedValue);
     })
 });
 
@@ -109,6 +112,8 @@ const equalsButton = createButton("=", "equals_button");
 
 equalsButton.addEventListener("click", function(e) {
     calculate();
+    storedValue = "";
+    displayNewNumber = true;
 })
 
 document.getElementById("debug").addEventListener("click", function(e){
