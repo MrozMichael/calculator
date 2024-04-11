@@ -7,6 +7,10 @@ body {
     font-family: 'consolas', 'Courier New', Courier, monospace;
 }
 
+#todos {
+    margin-top: 5px;
+}
+
 #calculator {
     box-sizing: border-box;
     border: 3px groove #131313;
