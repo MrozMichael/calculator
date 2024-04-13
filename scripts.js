@@ -43,7 +43,7 @@ const calculate = () => {
         case "^":
             result = x ** y;
             break;
-        case "%":
+        case "mod":
             result = x % y;
             break;
         default:
@@ -83,7 +83,7 @@ numberButtonArr.forEach(button => button.addEventListener("click", function(e) {
     displayNewNumber = false;
 }))
 
-const operators = ["+", "-", "/", "*", "^", "%"];
+const operators = ["+", "-", "/", "*", "^", "mod"];
 //give click handler to each operator button   
 
 operators.map(operator => {
