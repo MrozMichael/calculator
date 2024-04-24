@@ -42,6 +42,8 @@ body {
 #buttons {
     display: grid;
     grid-template-columns: 1fr .5fr;
+    grid-template-rows: 1fr .1fr;
+    max-width: fit-content;
     border: 2px solid red;
 }
 
@@ -50,6 +52,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1.5em;
     padding: 2em;
+    padding-top: 0;
 }
 
 button {
@@ -65,15 +68,19 @@ button {
     display: flex;
     flex-flow: column wrap;
     gap: 1em;
-    padding-right: 2em;
-    padding-top: 2em;
     grid-column-start: 2;
+    border: red 5px solid;
 }
 
-.operator_button {
-    
+#other_buttons {
+    display: flex;
+    justify-content: space-between;
+    border: red 5px solid;
+    width: 100%;
+
 }
 
+#other_buttons button {}
 
 #error_message {
     color: red;

@@ -113,10 +113,8 @@ const clearButton = createButton("clear", "clear_button", otherButtons);
 
 clearButton.addEventListener("click", function(e) {
     screen.textContent = "0";
-    storedValue.textContent = "";
-    chosenOperator = "";
+    resetValues();
     lastPressed = "";
-    displayNewNumber = true;
 })
 
 const deleteButton = createButton("del", "delete_button", otherButtons);
@@ -132,10 +130,14 @@ equalsButton.addEventListener("click", function(e) {
         return;
     }
     calculate();
+    resetValues();
+})
+
+const resetValues = () => {
     storedValue.textContent = "";
     displayNewNumber = true;
     chosenOperator = "";
-})
+}
 
 document.getElementById("debug").addEventListener("click", function(e){
     console.log("operator: ", chosenOperator)
