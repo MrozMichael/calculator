@@ -123,7 +123,7 @@ deleteButton.addEventListener("click", function(e) {
     screen.textContent = screen.textContent.length > 1 ?  screen.textContent.slice(0, -1): "0"; 
 })
 
-const equalsButton = createButton("=", "equals_button", otherButtons);
+const equalsButton = createButton("=", "equals_button", numberButtons);
 
 equalsButton.addEventListener("click", function(e) {
     if (isNaN(lastPressed)){
@@ -139,6 +139,7 @@ const resetValues = () => {
     chosenOperator = "";
 }
 
+/*
 document.getElementById("debug").addEventListener("click", function(e){
     console.log("operator: ", chosenOperator)
-})
+}) */
