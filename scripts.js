@@ -49,6 +49,9 @@ const calculate = () => {
         default:
             return;
     }
+    if (result.toString().includes(".") && result.toString().split('.')[1].length >= 7) {
+        result = result.toFixed(7);
+    } 
     screen.textContent = result;
     return result;
     //displayNewNumber = true;
@@ -132,6 +135,8 @@ equalsButton.addEventListener("click", function(e) {
     calculate();
     resetValues();
 })
+
+const decimalButton = createButton(".", "decimal_button", otherButtons);
 
 const resetValues = () => {
     storedValue.textContent = "";
