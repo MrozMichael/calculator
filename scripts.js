@@ -91,7 +91,11 @@ const operators = ["+", "-", "/", "*", "^", "mod"];
 operators.map(operator => {
     let newButton = createButton(operator, "operator_button", operatorButtons); 
     newButton.addEventListener("click", function(e) {
-        if (isNaN(lastPressed)) {
+        if (lastPressed === ".") {
+            screen.textContent = screen.textContent.split(".")[0];
+        }
+        
+        else if (isNaN(lastPressed)) {
             chosenOperator = operator;
             lastPressed = operator;
             return;
@@ -128,7 +132,10 @@ deleteButton.addEventListener("click", function(e) {
 const equalsButton = createButton("=", "equals_button", numberButtons);
 
 equalsButton.addEventListener("click", function(e) {
-    if (isNaN(lastPressed)){
+    if (lastPressed === ".") {
+        screen.textContent = screen.textContent.split(".")[0];
+    }
+    else if (isNaN(lastPressed)){
         return;
     }
     calculate();
@@ -136,6 +143,18 @@ equalsButton.addEventListener("click", function(e) {
 })
 
 const decimalButton = createButton(".", "decimal_button", otherButtons);
+
+decimalButton.addEventListener("click", function(e) {
+    if (screen.textContent.toString().includes(".") && !displayNewNumber){
+        return;
+    }
+    if (isNaN(lastPressed) || displayNewNumber){
+        screen.textContent = "0";
+    }
+    lastPressed = ".";
+    screen.textContent += ".";
+    displayNewNumber = false;
+})
 
 const resetValues = () => {
     storedValue.textContent = "";
