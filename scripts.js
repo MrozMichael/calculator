@@ -54,7 +54,6 @@ const calculate = () => {
     } 
     screen.textContent = result;
     return result;
-    //displayNewNumber = true;
 }
 //helper function to make calculator buttons
 let createButton = (label, buttonClass, parent) => {
