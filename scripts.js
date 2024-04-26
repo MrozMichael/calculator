@@ -69,8 +69,11 @@ for (let i = 0; i < 10; i++) {
 }
 
 const numberButtonArr = Array.from(document.getElementsByClassName("number_button"));
-//give click handler to each number button
-numberButtonArr.forEach(button => button.addEventListener("click", function(e) {
+
+
+//event handlers for buttons
+
+const numberEvent = (num) => {
     if (+screen.textContent >= 9007199254740991) {
         errorMsg.textContent = "Error: Maxmimum Value Exceeded";
         return;
@@ -79,33 +82,37 @@ numberButtonArr.forEach(button => button.addEventListener("click", function(e) {
         errorMsg.textContent = "Error: Minimum Value Exceeded";
         return;
     }
-    lastPressed = +button.textContent;
+    lastPressed = +num;
     screen.textContent = screen.textContent == "" || displayNewNumber ? 
-        button.textContent : screen.textContent + button.textContent;
+        num : screen.textContent + num;
     displayNewNumber = false;
-}))
+}
+
+const operatorEvent = (operator) => {
+    if (lastPressed === ".") {
+        screen.textContent = screen.textContent.split(".")[0];
+    }
+    else if (isNaN(lastPressed)) {
+        chosenOperator = operator;
+        lastPressed = operator;
+        storedValue.textContent = storedValue.textContent.split(" ")[0] + " " + operator;
+        return;
+    }
+    storedValue.textContent = calculate() + " " + operator;
+    chosenOperator = operator;    
+    //next input will display a new number
+    displayNewNumber = true;
+    lastPressed = operator.textContent;
+}
+
+numberButtonArr.forEach(button => button.addEventListener("click", () => numberEvent(button.textContent)));
 
 const operators = ["+", "-", "/", "*", "^", "mod"];
 //give click handler to each operator button   
 
 operators.map(operator => {
     let newButton = createButton(operator, "operator_button", operatorButtons); 
-    newButton.addEventListener("click", function(e) {
-        if (lastPressed === ".") {
-            screen.textContent = screen.textContent.split(".")[0];
-        }
-        
-        else if (isNaN(lastPressed)) {
-            chosenOperator = operator;
-            lastPressed = operator;
-            return;
-        }
-        storedValue.textContent = calculate() + " " + operator;
-        chosenOperator = operator;    
-        //next input will display a new number
-        displayNewNumber = true;
-        lastPressed = operator.textContent;
-    })
+    newButton.addEventListener("click", () => operatorEvent(operator));
 });
 
 const invertButton = createButton("(+/-)", "invert_button", otherButtons);
@@ -156,11 +163,23 @@ decimalButton.addEventListener("click", function(e) {
     displayNewNumber = false;
 })
 
+
 const resetValues = () => {
     storedValue.textContent = "";
     displayNewNumber = true;
     chosenOperator = "";
 }
+
+//keyboard support:
+
+document.addEventListener("keydown", (e) => {
+    if ("1234567890".includes(e.key)) {
+        numberEvent(e.key);
+    }
+    if (operators.includes(e.key) || e.key === "%"){
+        operatorEvent(e.key);
+    }
+})
 
 /*
 document.getElementById("debug").addEventListener("click", function(e){
