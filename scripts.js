@@ -116,6 +116,22 @@ const equalsEvent = () => {
     resetValues();
 }
 
+const deleteButtonEvent = () => {
+    screen.textContent = screen.textContent.length > 1 ?  screen.textContent.slice(0, -1): "0"; 
+}
+
+const decimalEvent = () => {
+    if (screen.textContent.toString().includes(".") && !displayNewNumber){
+        return;
+    }
+    if (isNaN(lastPressed) || displayNewNumber){
+        screen.textContent = "0";
+    }
+    lastPressed = ".";
+    screen.textContent += ".";
+    displayNewNumber = false;
+}
+
 numberButtonArr.forEach(button => button.addEventListener("click", () => numberEvent(button.textContent)));
 
 const operators = ["+", "-", "/", "*", "^", "mod"];
@@ -143,9 +159,7 @@ clearButton.addEventListener("click", function(e) {
 
 const deleteButton = createButton("del", "delete_button", otherButtons);
 
-deleteButton.addEventListener("click", function(e) {
-    screen.textContent = screen.textContent.length > 1 ?  screen.textContent.slice(0, -1): "0"; 
-})
+deleteButton.addEventListener("click", () => deleteButtonEvent);
 
 const equalsButton = createButton("=", "equals_button", numberButtons);
 
@@ -153,17 +167,7 @@ equalsButton.addEventListener("click", () => equalsEvent())
 
 const decimalButton = createButton(".", "decimal_button", otherButtons);
 
-decimalButton.addEventListener("click", function(e) {
-    if (screen.textContent.toString().includes(".") && !displayNewNumber){
-        return;
-    }
-    if (isNaN(lastPressed) || displayNewNumber){
-        screen.textContent = "0";
-    }
-    lastPressed = ".";
-    screen.textContent += ".";
-    displayNewNumber = false;
-})
+decimalButton.addEventListener("click", () => decimalEvent())
 
 
 const resetValues = () => {
@@ -175,6 +179,7 @@ const resetValues = () => {
 //keyboard support:
 
 document.addEventListener("keydown", (e) => {
+    // debug: console.log(e.key)
     if ("1234567890".includes(e.key)) {
         numberEvent(e.key);
         return;
@@ -185,6 +190,19 @@ document.addEventListener("keydown", (e) => {
     }
     if (e.key === "Enter" || e.key === "=") {
         equalsEvent();
+    }
+    switch(e.key){
+        case "%":
+            operatorEvent("mod");
+            break;
+        case "Backspace":
+            deleteButtonEvent();
+            break;
+        case ".":
+            decimalEvent();
+            break;
+        default:
+            break;
     }
 })
 
