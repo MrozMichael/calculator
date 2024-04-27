@@ -105,6 +105,17 @@ const operatorEvent = (operator) => {
     lastPressed = operator.textContent;
 }
 
+const equalsEvent = () => {
+    if (lastPressed === ".") {
+        screen.textContent = screen.textContent.split(".")[0];
+    }
+    else if (isNaN(lastPressed)){
+        return;
+    }
+    calculate();
+    resetValues();
+}
+
 numberButtonArr.forEach(button => button.addEventListener("click", () => numberEvent(button.textContent)));
 
 const operators = ["+", "-", "/", "*", "^", "mod"];
@@ -138,16 +149,7 @@ deleteButton.addEventListener("click", function(e) {
 
 const equalsButton = createButton("=", "equals_button", numberButtons);
 
-equalsButton.addEventListener("click", function(e) {
-    if (lastPressed === ".") {
-        screen.textContent = screen.textContent.split(".")[0];
-    }
-    else if (isNaN(lastPressed)){
-        return;
-    }
-    calculate();
-    resetValues();
-})
+equalsButton.addEventListener("click", () => equalsEvent())
 
 const decimalButton = createButton(".", "decimal_button", otherButtons);
 
@@ -175,9 +177,14 @@ const resetValues = () => {
 document.addEventListener("keydown", (e) => {
     if ("1234567890".includes(e.key)) {
         numberEvent(e.key);
+        return;
     }
-    if (operators.includes(e.key) || e.key === "%"){
+    if (operators.includes(e.key)){
         operatorEvent(e.key);
+        return;
+    }
+    if (e.key === "Enter" || e.key === "=") {
+        equalsEvent();
     }
 })
 
