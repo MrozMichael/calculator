@@ -50,9 +50,6 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1em;
-    padding: 2em;
-    padding-top: 0;
-    padding-left: 0;
 }
 
 button {
@@ -98,14 +95,13 @@ button {
 #other_buttons {
     display: flex;
     flex: auto;
-    gap: 1em;
+    gap: .8em;
     justify-content: space-between;
     grid-row-start: 3;
     grid-column: span 2;
 }
 
 #other_buttons button {
-    margin: 2px;
 }
 
 .equals_button {
@@ -116,5 +112,6 @@ button {
     color: red;
     font-weight: bolder;
     text-align: center;
+    font-size: larger   ;
     margin-top: 1em;
 }

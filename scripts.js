@@ -52,11 +52,15 @@ const calculate = () => {
     if (result.toString().includes(".") && result.toString().split('.')[1].length >= 7) {
         result = result.toFixed(7);
     } 
+    if (!isFinite(result)) {
+        errorMsg.textContent = "Error: Resulting Value is too large";
+        result = 0;
+    }
     screen.textContent = result;
     return result;
 }
 //helper function to make calculator buttons
-let createButton = (label, buttonClass, parent) => {
+const createButton = (label, buttonClass, parent) => {
     let newButton = document.createElement("button");
     newButton.textContent = label;
     newButton.className = buttonClass;
@@ -70,16 +74,15 @@ for (let i = 0; i < 10; i++) {
 
 const numberButtonArr = Array.from(document.getElementsByClassName("number_button"));
 
-
 //event handlers for buttons
-
 const numberEvent = (num) => {
-    if (+screen.textContent >= 9007199254740991) {
-        errorMsg.textContent = "Error: Maxmimum Value Exceeded";
-        return;
-    }
-    if (+screen.textContent <= -9007199254740991) {
-        errorMsg.textContent = "Error: Minimum Value Exceeded";
+    if (screen.textContent.length > 15 && !displayNewNumber) {
+        errorMsg.textContent = "Error: Maximum digit length exceeded.";
+        setTimeout(() => {
+            errorMsg.textContent = "";
+        }, 2000);
+        lastPressed = +num;
+        displayNewNumber = false;
         return;
     }
     lastPressed = +num;
@@ -134,7 +137,7 @@ const decimalEvent = () => {
 
 numberButtonArr.forEach(button => button.addEventListener("click", () => numberEvent(button.textContent)));
 
-const operators = ["+", "-", "/", "*", "^", "mod"];
+const operators = ["+", "-", "/", "*", "^", "mod (%)"];
 //give click handler to each operator button   
 
 operators.map(operator => {
@@ -169,7 +172,6 @@ const decimalButton = createButton(".", "decimal_button", otherButtons);
 
 decimalButton.addEventListener("click", () => decimalEvent())
 
-
 const resetValues = () => {
     storedValue.textContent = "";
     displayNewNumber = true;
@@ -177,7 +179,6 @@ const resetValues = () => {
 }
 
 //keyboard support:
-
 document.addEventListener("keydown", (e) => {
     // debug: console.log(e.key)
     if ("1234567890".includes(e.key)) {
@@ -205,8 +206,3 @@ document.addEventListener("keydown", (e) => {
             break;
     }
 })
-
-/*
-document.getElementById("debug").addEventListener("click", function(e){
-    console.log("operator: ", chosenOperator)
-}) */
