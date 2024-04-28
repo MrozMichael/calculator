@@ -57,6 +57,9 @@ const calculate = () => {
     } 
     if (!isFinite(result)) {
         errorMsg.textContent = "Error: Resulting Value is too large";
+        setTimeout(() => {
+            errorMsg.textContent = "";
+        }, 2000);
         result = 0;
     }
     screen.textContent = result;
