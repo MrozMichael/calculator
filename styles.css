@@ -7,10 +7,6 @@ body {
     font-family: 'consolas', 'Courier New', Courier, monospace;
 }
 
-#todos {
-    margin-top: 5px;
-}
-
 #calculator {
     
     border: 3px groove #131313;
@@ -18,17 +14,18 @@ body {
     flex-direction: column;
     justify-content: center;
     min-width: fit-content;
-    max-width: 20%;
+    max-width: 30%;
     margin: auto;
     gap: 2em;
     padding: 1em;
+    background-color: rgb(152, 180, 212)
 }
 
 #screen {
     border: 2px solid black;
     border-radius: 5px;
     text-align: end;
-    background-color: rgb(224, 242, 245);
+    background-color: rgb(255, 255, 255);
     padding-right: 2%;
 }
 
@@ -42,8 +39,8 @@ body {
 
 #buttons {
     display: grid;
-    grid-template-columns: 1fr .55fr;
-    grid-template-rows: 1fr .3fr .2fr;
+    grid-template-columns: 1fr .6fr;
+    grid-template-rows: 1fr .2fr;
 }
 
 #number_buttons {
@@ -56,6 +53,16 @@ button {
     font-size: 1em;
     font-weight: bold;
     width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+button:active {
+    background-color: rgb(127, 205, 205);
+}
+
+button:hover {
+box-shadow: 1px 3px 1px 1px lightblue;
 }
 
 /* place 0 button last number*/
@@ -72,40 +79,34 @@ button {
     margin-top: 1em;
 }
 
-.number_button {
-    padding: .2em;
-}
 
 .operator_button {
     font-size: 1em;
-    width: 50%;
 }
 
 #operator_buttons {
-    display: flex;
-    flex-flow: column wrap;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: fit-content;
+    width: 70%;
     gap: 1em;
+    margin-left: 3em;
 }
 
-#operator_buttons > :last-child {
-    padding: .2em;
-}
 
 #other_buttons {
+    margin-top: 1em;
     display: flex;
     flex: auto;
-    gap: .8em;
+    gap: 1em;
     justify-content: space-between;
-    grid-row-start: 3;
+    grid-row-start: 2;
+    align-self: end;
     grid-column: span 2;
-}
-
-#other_buttons button {
-}
-
-.equals_button {
-    
+    height: 30%;
+    width: 100%;
+    margin-top: 20%;
 }
 
 #error_message {

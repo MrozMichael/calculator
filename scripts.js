@@ -36,6 +36,9 @@ const calculate = () => {
         case "/":
             if (y == 0) {
                 errorMsg.textContent = "Divide By 0 Error";
+                setTimeout(() => {
+                    errorMsg.textContent = "";
+                }, 5000);
                 return;
             }
             result = x / y;
@@ -120,7 +123,11 @@ const equalsEvent = () => {
 }
 
 const deleteButtonEvent = () => {
-    screen.textContent = screen.textContent.length > 1 ?  screen.textContent.slice(0, -1): "0"; 
+    screen.textContent = screen.textContent.slice(0, -1);
+    if (screen.textContent === "") {
+        screen.textContent = "0";
+        displayNewNumber = true;
+    } 
 }
 
 const decimalEvent = () => {
@@ -152,7 +159,7 @@ invertButton.addEventListener("click", function(e){
     }
 })
 
-const clearButton = createButton("clear", "clear_button", otherButtons);
+const clearButton = createButton("clr", "clear_button", otherButtons);
 
 clearButton.addEventListener("click", function(e) {
     screen.textContent = "0";
